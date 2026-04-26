@@ -19,9 +19,10 @@ class ModularReducer:
     P = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F
     C = 4294968273  # p = 2^256 - C
     
-    def __init__(self, input_bits: int = 512, output_bits: int = 256):
+    def __init__(self, input_bits: int = 512, output_bits: int = 256, field_bits: int = None):
         self.input_bits = input_bits
         self.output_bits = output_bits
+        self.field_bits = field_bits if field_bits else output_bits
         
         # Gate counts from documentation (Section 3.6)
         self._toffoli_count = 9348

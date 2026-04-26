@@ -1,0 +1,43 @@
+# Quantum circuit: test_adder_4bit
+# Computing: 5 + 3 = 8 on QPU-1 (Graphene Charge QPU)
+q = Qreg(13)
+
+# Initialize inputs: a=5 (0101), b=3 (0011)
+q.X(0)
+q.X(2)
+q.X(4)
+q.X(5)
+
+# Initialize carry
+q.X(8)
+
+# MAJ stage - Cuccaro adder
+q.CCNOT(8, 0, 4)
+q.CNOT(1, 5)
+q.CNOT(1, 8)
+q.CCNOT(8, 5, 1)
+q.CNOT(2, 6)
+q.CNOT(2, 8)
+q.CCNOT(8, 6, 2)
+q.CNOT(3, 7)
+q.CNOT(3, 8)
+q.CCNOT(8, 7, 3)
+
+# UMA stage - uncompute carries
+q.CCNOT(2, 6, 8)
+q.CNOT(2, 8)
+q.CNOT(6, 7)
+q.CCNOT(1, 5, 8)
+q.CNOT(1, 8)
+q.CNOT(5, 6)
+q.CCNOT(0, 4, 4)
+q.CNOT(0, 4)
+q.CNOT(4, 5)
+
+# Final carry-out
+q.CCNOT(3, 7, 8)
+
+# Measure result qubits (b register should contain 8 = 1000)
+print("Input a=5 (0101), b=3 (0011)")
+print("Expected output: 8 (1000)")
+print(q.measure())

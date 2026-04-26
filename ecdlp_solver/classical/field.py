@@ -36,6 +36,13 @@ class Fp:
             return False
         return self.v == other.v
     
+    def __hash__(self) -> int:
+        return hash(self.v)
+    
+    def __pow__(self, exp: int) -> 'Fp':
+        """Exponentiation for integer powers."""
+        return Fp(pow(self.v, exp, self.P))
+    
     def __repr__(self) -> str:
         return f"Fp({hex(self.v)})"
     
