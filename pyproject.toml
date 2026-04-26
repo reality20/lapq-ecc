@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ecdlp-solver"
+version = "1.0.0"
+description = "Quantum ECDLP Solver for secp256k1 using Shor's algorithm with windowed arithmetic"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "ECDLP Solver Team", email = "ecdlp-solver@example.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Quantum Computing",
+]
+keywords = ["quantum computing", "ECDLP", "secp256k1", "Shor's algorithm", "cryptography", "elliptic curves"]
+requires-python = ">=3.8"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/ecdlp-solver/ecdlp-solver"
+Repository = "https://github.com/ecdlp-solver/ecdlp-solver.git"
+Documentation = "https://github.com/ecdlp-solver/ecdlp-solver#readme"
+Issues = "https://github.com/ecdlp-solver/ecdlp-solver/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ecdlp_solver*"]
