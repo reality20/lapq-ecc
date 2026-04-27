@@ -4,10 +4,11 @@ Test QPU-1 execution with circuits generated directly from QuantumCircuit.
 """
 
 import sys
-sys.path.insert(0, '/workspace')
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from ecdlp_solver.quantum.core import QuantumCircuit
-from client import QPU1
+from lapq.client import QPU1
 
 API_KEY = "demo-key-for-testing"
 qpu = QPU1(API_KEY)

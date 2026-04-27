@@ -5,9 +5,10 @@ The error shows that Qreg uses method calls, not subscript notation.
 """
 
 import sys
-sys.path.insert(0, '/workspace')
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from client import QPU1
+from lapq.client import QPU1
 
 # Test with correct Qreg syntax
 test_circuits = [

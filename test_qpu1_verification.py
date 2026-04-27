@@ -5,7 +5,8 @@ Tests quantum primitives and generates QPU-1 compatible Qreg code
 """
 
 import sys
-sys.path.insert(0, '/workspace')
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from ecdlp_solver.quantum.core import QuantumCircuit, QuantumRegister, AncillaPool
 from ecdlp_solver.quantum.primitives.adder import RippleCarryAdder
