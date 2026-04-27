@@ -281,15 +281,42 @@ class QuantumCircuit:
         lines = [f"# Quantum circuit: {self.name}", f"q = Qreg({self.num_qubits})", ""]
         
         for gate in self.gates:
+            # Normalize gate formats:
+            # Standard: (name, [qubits], [params])  -- 3-tuple with lists
+            # Legacy:   (name, q0, q1, ...)          -- variable-length tuple with ints
+            # Short:    (name, qubit)                 -- 2-tuple single-qubit gate
             gate_name = gate[0]
-            qubits = gate[1:-1] if len(gate) > 2 and isinstance(gate[-1], (int, float)) else gate[1:]
-            params = [] if len(gate) <= 2 or not isinstance(gate[-1], (int, float)) else [gate[-1]]
-            if gate_name == "BARRIER":
-                lines.append("# BARRIER")
+            
+            if gate_name in ("BARRIER", "COMMENT"):
+                if gate_name == "COMMENT" and len(gate) > 1:
+                    lines.append(f"# {gate[1]}")
+                else:
+                    lines.append("# BARRIER")
                 continue
             
             if gate_name == "MEASURE":
                 continue  # Handle at the end
+            
+            # Parse qubits and params from the gate tuple
+            if len(gate) == 3 and isinstance(gate[1], list) and isinstance(gate[2], list):
+                # Standard format: (name, [qubits], [params])
+                qubits = gate[1]
+                params = gate[2]
+            elif len(gate) == 2 and isinstance(gate[1], list):
+                # (name, [qubits])
+                qubits = gate[1]
+                params = []
+            elif len(gate) >= 2 and all(isinstance(gate[i], (int, float)) for i in range(1, len(gate))):
+                # Legacy flat format: (name, q0, q1, ...)
+                # Determine which are qubit indices (int) vs params (float)
+                int_args = [x for x in gate[1:] if isinstance(x, int)]
+                float_args = [x for x in gate[1:] if isinstance(x, float)]
+                qubits = int_args
+                params = float_args
+            else:
+                # Fallback
+                qubits = list(gate[1]) if isinstance(gate[1], (list, tuple)) else [gate[1]] if len(gate) > 1 else []
+                params = list(gate[2]) if len(gate) > 2 and isinstance(gate[2], (list, tuple)) else [gate[2]] if len(gate) > 2 else []
             
             # Generate gate call with QPU-1 syntax: q.GATE(q0, q1, ..., params)
             all_args = [str(q) for q in qubits] + [str(p) for p in params]
