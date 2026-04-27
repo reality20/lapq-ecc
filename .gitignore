@@ -1,18 +1,4 @@
 ```gitignore
-# Python cache
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Logs
-*.log
-
-# Environment files
-.env
-.env.local
-*.env.*
-
-# Test reports
-reports/*.txt
+# No build artifacts, dependencies, or temporary files detected in changes
+# Only documentation files were modified
 ```
